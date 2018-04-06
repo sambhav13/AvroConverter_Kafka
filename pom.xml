@@ -30,6 +30,11 @@
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
         </exclusion>
+
+        <exclusion>
+          <groupId>com.fasterxml.jackson.jaxrs</groupId>
+          <artifactId>jackson-jaxrs-json-provider</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
