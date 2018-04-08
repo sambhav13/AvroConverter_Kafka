@@ -49,6 +49,7 @@ public class MyHWAvroConvertor implements Converter   {
         SchemaRegistryClient schemaRegistryClient = new SchemaRegistryClient(config);
         this.serializer =  new KafkaAvroSerializer(schemaRegistryClient);
         this.deserializer = new KafkaAvroDeserializer(schemaRegistryClient);
+	this.deserializer.configure(configs,false);
 
         avroData = new AvroData(new AvroDataConfig(configs));
     }
@@ -74,7 +75,18 @@ public class MyHWAvroConvertor implements Converter   {
                 toConnectData(deserialized_record.getSchema(),deserialized_record);
         return null;*/
             try {
-                GenericContainer deserialized = (GenericContainer)deserializer.deserialize(topic, value);
+		System.out.println("Topic-->"+topic);
+		System.out.println("value-->"+value);
+                Object deserialized_tmp = deserializer.deserialize(topic, value);
+		System.out.println("deserialized OBJECT OBTAINED");
+		
+		if(deserialized_tmp !=null){
+		System.out.println("The record is not null");
+		System.out.println(deserialized_tmp);
+		System.out.println("The deserialized record class is--->"+deserialized_tmp.getClass());
+		
+		}
+                GenericContainer deserialized = (GenericContainer)deserialized_tmp;
             if (deserialized == null) {
                 return SchemaAndValue.NULL;
             } else if (deserialized instanceof IndexedRecord) {
